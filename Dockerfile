@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ARG APP_NAME
+ARG APP_NAME="react-crm"
 
 # test arg
 RUN test -n "$APP_NAME"
@@ -32,5 +32,7 @@ WORKDIR /home/ubuntu/"$APP_NAME"/"$APP_NAME"
 COPY . .
 RUN echo $PATH
 RUN npm install
+RUN npm install quill
+EXPOSE 3000
 
 CMD ["npm", "start"]
