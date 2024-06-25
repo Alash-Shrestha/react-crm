@@ -1,21 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Grid, Stack, Typography } from '@mui/material'
-import { useGoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import imgGoogle from '../../assets/images/auth/google.svg'
 import imgLogo from '../../assets/images/auth/img_logo.png'
 import imgLogin from '../../assets/images/auth/img_login.png'
-import { GoogleButton } from '../../styles/CssStyled';
-import { fetchData } from '../../components/FetchData';
-import { AuthUrl } from '../../services/ApiUrls';
+import { GoogleButton } from '../../styles/CssStyled'
+import { fetchData } from '../../components/FetchData'
+import { AuthUrl } from '../../services/ApiUrls'
 import '../../styles/style.css'
-
-declare global {
-    interface Window {
-        google: any;
-        gapi: any;
-    }
-}
 
 export default function Login() {
     const navigate = useNavigate()
@@ -28,26 +20,6 @@ export default function Login() {
         }
     }, [token])
 
-    const login = useGoogleLogin({
-        onSuccess: tokenResponse => {
-            const apiToken = { token: tokenResponse.access_token }
-            // const formData = new FormData()
-            // formData.append('token', tokenResponse.access_token)
-            const head = {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-            fetchData(`${AuthUrl}/`, 'POST', JSON.stringify(apiToken), head)
-                .then((res: any) => {
-                    localStorage.setItem('Token', `Bearer ${res.access_token}`)
-                    setToken(true)
-                })
-                .catch((error: any) => {
-                    console.error('Error:', error)
-                })
-        },
-
-    });
     return (
         <div>
             <Stack
@@ -71,43 +43,12 @@ export default function Login() {
                         </Grid>
                         <Typography variant='h5' style={{ fontWeight: 'bolder' }}>Sign In</Typography>
                         <Grid item sx={{ mt: 4 }}>
-                            {/* <GoogleLogin
-                                onSuccess={credentialResponse => {
-                                    console.log(credentialResponse);
-                                }}
-
-                                onError={() => {
-                                    console.log('Login Failed');
-                                }}
-                            />
-                            <Button onClick={signout}>logout</Button> */}
-
-                            <GoogleButton variant='outlined' onClick={() => login()} sx={{ fontSize: '12px', fontWeight: 500 }}>
+                            {/* Remove the Google login button */}
+                            {/* <GoogleButton variant='outlined' onClick={() => login()} sx={{ fontSize: '12px', fontWeight: 500 }}>
                                 Sign in with Google
                                 <img src={imgGoogle} alt='google' style={{ width: '17px', marginLeft: '5px' }} />
-                            </GoogleButton>
-                            {/* <Grid item sx={{ mt: 2, alignItems: 'center', alignContent: 'center' }}>
-                                <Grid item sx={{ mt: 1, ml: 6 }}>
-                                    <div className='authentication_wrapper'>
-                                        <div className='authentication_block'>
-                                            <div className='buttons'>
-                                                <GoogleLogin
-                                                    onSuccess={credentialResponse => {
-                                                        console.log(credentialResponse);
-                                                    }}
-
-                                                    onError={() => {
-                                                        console.log('Login Failed');
-                                                    }}
-
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            </Grid> */}
+                            </GoogleButton> */}
                         </Grid>
-
                     </Grid>
                 </Grid>
                 <Grid
@@ -123,7 +64,7 @@ export default function Login() {
                     <Grid item >
                         <Stack sx={{ alignItems: 'center' }}>
                             <h3>Welcome to BottleCRM</h3>
-                            <p> Free and OpenSource CRM from small medium business.</p>
+                            <p>Free and OpenSource CRM for small and medium businesses.</p>
                             <img
                                 src={imgLogin}
                                 alt='register_ad_image'
@@ -137,6 +78,5 @@ export default function Login() {
                 </Grid>
             </Stack>
         </div>
-
     )
 }
